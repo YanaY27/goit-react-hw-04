@@ -18,14 +18,14 @@ export default function App() {
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSearch = async (newQuery) => {
-    if (!newQuery.trim()) {
+  const handleSearch = async (newSearch) => {
+    if (!newSearch.trim()) {
       toast.error("Enter a search query");
       return;
     }
     setIsLoading(true);
     setError("");
-    setQuery(newQuery);
+    setQuery(newSearch);
     setPage(1);
   };
 
@@ -53,7 +53,7 @@ export default function App() {
         const data = await fetchPhotosByQuery(query, page);
 
         if (data.length === 0) {
-          toast.error("No images were found for your request");
+          toast.error("No images with your request");
         } else {
           if (page === 1) {
             setImages(data);
@@ -80,7 +80,7 @@ export default function App() {
         <ImageGallery items={images} openModal={handleImageClick} />
       )}
       {isLoading && <Loader />}
-      {images.length > 0 && images.length > 9 && !isLoading && (
+      {images.length > 0 && !isLoading && (
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
 
